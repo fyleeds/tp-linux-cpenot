@@ -3,11 +3,8 @@
 
 # I. Service SSH
 
-Le service SSH est déjà installé sur la machine, et il est aussi déjà démarré par défaut, c'est Rocky qui fait ça nativement.
 
 ## 1. Analyse du service
-
-On va, dans cette première partie, analyser le service SSH qui est en cours d'exécution.
 
 🌞 **S'assurer que le service `sshd` est démarré**
 
@@ -39,7 +36,6 @@ Dec 09 16:44:50 localhost.localdomain sshd[2191]: pam_unix(sshd:session): sessio
 - afficher les processus liés au service `sshd`
   - vous pouvez afficher la liste des processus en cours d'exécution avec une commande `ps`
   - pour le compte-rendu, vous devez filtrer la sortie de la commande en ajoutant `| grep <TEXTE_RECHERCHE>` après une commande
-    - exemple :
 
 ```bash
 [fay@TpLinux2 ~]$ ps -el | grep sshd
@@ -181,26 +177,6 @@ ssh fay@10.3.1.2 -p 8430
 
 # II. Service HTTP
 
-Dans cette partie, on ne va pas se limiter à un service déjà présent sur la machine : on va ajouter un service à la machine.
-
-On va faire dans le *clasico* et installer un serveur HTTP très réputé : NGINX.  
-Un serveur HTTP permet d'héberger des sites web.
-
-Un serveur HTTP (ou "serveur Web") c'est :
-
-- un programme qui écoute sur un port (ouais ça change pas ça)
-- il permet d'héberger des sites web
-  - un site web c'est un tas de pages html, js, css
-  - un site web c'est aussi parfois du code php, python ou autres, qui indiquent comment le site doit se comporter
-- il permet à des clients de visiter les sites web hébergés
-  - pour ça, il faut un client HTTP (par exemple, un navigateur web)
-  - le client peut alors se connecter au port du serveur (connu à l'avance)
-  - une fois le tunnel de communication établi, le client effectuera des requêtes HTTP
-  - le serveur répondra à l'aide du protocole HTTP
-
-> Une requête HTTP c'est "donne moi tel fichier HTML". Une réponse c'est "voici tel fichier HTML" + le fichier HTML en question.
-
-Ok bon on y va ?
 
 ## 1. Mise en place
 
@@ -228,13 +204,6 @@ sudo systemctl start nginx
 
 ```
 
-Run the following command to permanently enable HTTP connections on port 80:
-```
-sudo firewall-cmd --permanent --add-service=http
-
-sudo firewall-cmd --permanent --add-port 80/tcp
-```
-
 
 🌞 **Déterminer sur quel port tourne NGINX**
 
@@ -248,7 +217,14 @@ LISTEN 0      128             [::]:80           [::]:*    users:(("nginx",pid=12
 - vous devez filtrer la sortie de la commande utilisée pour n'afficher que les lignes demandées
 - ouvrez le port concerné dans le firewall
 
-> **NB : c'est la dernière fois que je signale explicitement la nécessité d'ouvrir un port dans le firewall.** Vous devrez vous-mêmes y penser lorsque nécessaire. **Toutes les commandes liées au firewall doivent malgré tout figurer dans le compte-rendu.**
+
+Run the following command to permanently enable HTTP connections on port 80:
+```
+sudo firewall-cmd --permanent --add-service=http
+
+sudo firewall-cmd --permanent --add-port 80/tcp
+```
+
 
 🌞 **Déterminer les processus liés à l'exécution de NGINX**
 
